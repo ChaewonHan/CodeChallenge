@@ -174,7 +174,7 @@ gradle-app.setting
 .classpath
 
 # properties, yml
-application-oauth.properties
+application-oauth.yml
 application.yml
 
 .idea
