@@ -2,10 +2,12 @@ package com.project.challenge;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+@EnableJpaAuditing
 @SpringBootTest
 class CodingChallengeApplicationTests {
 
