@@ -1,7 +1,8 @@
 package com.project.challenge.repository;
 
-import com.project.challenge.entity.user.User;
-import com.project.challenge.entity.user.UserStatus;
+import com.project.challenge.domain.user.User;
+import com.project.challenge.dto.UserDto;
+import com.project.challenge.service.user.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,31 +13,34 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 @Rollback(value = false)
-class UserTest {
+class UserServiceTest {
 
     @PersistenceContext
     EntityManager em;
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserService userService;
 
     @Test
     void BaseEntityTest() {
         //given
-        String name = "test";
+        String id = "test";
+        String name = "테스트";
         String password = "test!";
         String email = "coding@gmail.com";
 
-        User user = new User(name, password, email, UserStatus.USER);
+        User user = User.builder()
+                .userId(id)
+                .password(password)
+                .username(name)
+                .email(email)
+                .build();
+
         userRepository.save(user);
 
         //when
@@ -45,4 +49,17 @@ class UserTest {
         //then
         System.out.println("date = " + findUser.getCreatedDate());
     }
+
+    @Test
+    void save() {
+        //given
+        UserDto userDto = new UserDto("test", "test!", "coding@gmail.com", "테스트");
+
+        //when
+        String saveId = userService.userSave(userDto);
+
+        //then
+    }
+
+
 }
