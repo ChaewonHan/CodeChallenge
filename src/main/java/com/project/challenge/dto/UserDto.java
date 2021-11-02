@@ -2,26 +2,31 @@ package com.project.challenge.dto;
 
 import com.project.challenge.domain.BaseEntity;
 import com.project.challenge.domain.user.User;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class UserDto extends BaseEntity {
 
+    @Pattern(regexp = "[a-zA-Z1-9]{5,20}")
     private String userId;
-    private String password;
-    private String email;
-    private String username;
 
-    public UserDto(String userId, String password, String email, String username) {
-        this.userId = userId;
-        this.password = password;
-        this.email = email;
-        this.username = username;
-    }
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$")
+    private String password;
+
+    @Email
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    @Length(max=10)
+    private String username;
 
     @Builder
     public User toEntity() {

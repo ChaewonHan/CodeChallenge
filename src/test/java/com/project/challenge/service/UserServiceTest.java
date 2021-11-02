@@ -1,8 +1,9 @@
-package com.project.challenge.repository;
+package com.project.challenge.service;
 
 import com.project.challenge.domain.user.User;
 import com.project.challenge.dto.UserDto;
 import com.project.challenge.exception.DuplicateException;
+import com.project.challenge.repository.UserRepository;
 import com.project.challenge.service.user.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -52,7 +53,7 @@ class UserServiceTest {
         given(userRepository.save(any(User.class))).willReturn(user);
 
         //when
-        String saveId = userService.userSave(userDto);
+        userService.userSave(userDto);
 
         //then
         then(userRepository).should(times(1)).existsByUserIdAndDeleteAccount(userId, false);
