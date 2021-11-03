@@ -23,16 +23,18 @@ public class UserValidator implements Validator {
         UserDto userDto = (UserDto) target;
         //활동중인 회원의 아이디와 중복되는지 체크한다.
         if (userRepository.existsByUserIdAndDeleteAccount(userDto.getUserId(), false)) {
-            errors.rejectValue("userId", "Duplicate.user.userId");
+            errors.rejectValue("userId", "Duplicate.user.userId",
+                    new Object[]{userDto.getUserId()},"사용중인 아이디");
         }
         //활동중인 회원의 이메일과 중복되는지 체크한다.
         if (userRepository.existsByEmailAndDeleteAccount(userDto.getEmail(), false)) {
-            errors.rejectValue("email", "Duplicate.user.email");
+            errors.rejectValue("email", "Duplicate.user.email",
+                    new Object[]{userDto.getEmail()},"사용중인 이메일");
         }
         //활동중인 회원의 닉네임과 중복되는지 체크한다.
         if (userRepository.existsByUsernameAndDeleteAccount(userDto.getUsername(), false)) {
-            errors.rejectValue("username", "Duplicate.user.username");
+            errors.rejectValue("username", "Duplicate.user.username",
+                    new Object[]{userDto.getUsername()},"사용중인 닉네임");
         }
-
     }
 }

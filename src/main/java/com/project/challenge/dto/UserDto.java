@@ -11,8 +11,8 @@ import javax.validation.constraints.Pattern;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-public class UserDto extends BaseEntity {
+@Data
+public class UserDto {
 
     @Pattern(regexp = "[a-zA-Z1-9]{5,20}")
     private String userId;
