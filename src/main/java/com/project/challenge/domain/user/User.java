@@ -6,12 +6,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@DynamicInsert
 public class User extends BaseEntity {
 
     @Id
@@ -30,18 +33,17 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String username;
 
-    //탈퇴 여부
-    @Convert(converter = BooleanToYNConverter.class)
     @Column(nullable = false)
-    private boolean deleteAccount;
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
 
     @Builder
-    public User(long userNo, String userId, String password, String email, String username, boolean deleteAccount) {
+    public User(long userNo, String userId, String password, String email, String username, UserStatus userStatus) {
         this.userNo = userNo;
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.username = username;
-        this.deleteAccount = deleteAccount;
+        this.userStatus = userStatus;
     }
 }

@@ -1,8 +1,8 @@
 package com.project.challenge.service.user;
 
 import com.project.challenge.domain.user.User;
+import com.project.challenge.domain.user.UserStatus;
 import com.project.challenge.dto.UserDto;
-import com.project.challenge.exception.DuplicateException;
 import com.project.challenge.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,4 +25,15 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public boolean duplicateCheckUserId(UserDto userDto) {
+        return userRepository.existsByUserIdAndUserStatus(userDto.getUserId(), UserStatus.ACTIVE);
+    }
+
+    public boolean duplicateCheckEmail(UserDto userDto) {
+        return userRepository.existsByEmailAndUserStatus(userDto.getEmail(), UserStatus.ACTIVE);
+    }
+
+    public boolean duplicateCheckUsername(UserDto userDto) {
+        return userRepository.existsByUsernameAndUserStatus(userDto.getUsername(), UserStatus.ACTIVE);
+    }
 }

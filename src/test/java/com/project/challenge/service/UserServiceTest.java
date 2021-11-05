@@ -1,10 +1,12 @@
 package com.project.challenge.service;
 
 import com.project.challenge.domain.user.User;
+import com.project.challenge.domain.user.UserStatus;
 import com.project.challenge.dto.UserDto;
 import com.project.challenge.exception.DuplicateException;
 import com.project.challenge.repository.UserRepository;
 import com.project.challenge.service.user.UserService;
+import com.project.challenge.validator.UserValidator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,6 +25,12 @@ class UserServiceTest {
 
     @Mock
     UserRepository userRepository;
+
+    @Mock
+    PasswordEncoder passwordEncoder;
+
+    @Mock
+    UserValidator userValidator;
 
     @InjectMocks
     UserService userService;
@@ -40,7 +49,7 @@ class UserServiceTest {
                 .username(userDto.getUsername())
                 .password(userDto.getPassword())
                 .email(userDto.getEmail())
-                .deleteAccount(true)
+                .userStatus(UserStatus.ACTIVE)
                 .build();
     }
 
@@ -56,9 +65,9 @@ class UserServiceTest {
         userService.userSave(userDto);
 
         //then
-        then(userRepository).should(times(1)).existsByUserIdAndDeleteAccount(userId, false);
-        then(userRepository).should(times(1)).existsByUsernameAndDeleteAccount(username, false);
-        then(userRepository).should(times(1)).existsByEmailAndDeleteAccount(email, false);
+        then(userRepository).should(times(1)).existsByUserIdAndUserStatus(userId, UserStatus.ACTIVE);
+        then(userRepository).should(times(1)).existsByUsernameAndUserStatus(username, UserStatus.ACTIVE);
+        then(userRepository).should(times(1)).existsByEmailAndUserStatus(email, UserStatus.ACTIVE);
 
     }
 

@@ -2,16 +2,17 @@ package com.project.challenge.repository;
 
 
 import com.project.challenge.domain.user.User;
+import com.project.challenge.domain.user.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    boolean existsByUserIdAndDeleteAccount(String userId, boolean yn);
+    boolean existsByUserIdAndUserStatus(String userId, UserStatus userStatus);
 
-    boolean existsByEmailAndDeleteAccount(String email, boolean yn);
+    boolean existsByEmailAndUserStatus(String email, UserStatus userStatus);
 
-    boolean existsByUsernameAndDeleteAccount(String username, boolean yn);
+    boolean existsByUsernameAndUserStatus(String username, UserStatus userStatus);
 
 }
