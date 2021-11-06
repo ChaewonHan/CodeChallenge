@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String joinUser(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result) {
+    public String joinUser(@Valid @ModelAttribute("user") UserDto.addUser userDto, BindingResult result) {
         // 예외가 발생하면 회원가입 폼으로 redirect
         if (result.hasErrors()) {
             log.info("errors={}", result);

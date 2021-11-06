@@ -22,7 +22,7 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        UserDto userDto = (UserDto) target;
+        UserDto.addUser userDto = (UserDto.addUser) target;
         //활동중인 회원의 아이디와 중복되는지 체크한다.
         if (userService.duplicateCheckUserId(userDto)) {
             errors.rejectValue("userId", "Duplicate.user.userId",

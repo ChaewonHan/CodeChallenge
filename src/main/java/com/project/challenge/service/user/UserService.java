@@ -18,22 +18,22 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void userSave(UserDto userDto){
+    public void userSave(UserDto.addUser userDto){
         String encodePw = passwordEncoder.encode(userDto.getPassword());
         userDto.setPassword(encodePw);
         User user = userDto.toEntity();
         userRepository.save(user);
     }
 
-    public boolean duplicateCheckUserId(UserDto userDto) {
+    public boolean duplicateCheckUserId(UserDto.addUser userDto) {
         return userRepository.existsByUserIdAndUserStatus(userDto.getUserId(), UserStatus.ACTIVE);
     }
 
-    public boolean duplicateCheckEmail(UserDto userDto) {
+    public boolean duplicateCheckEmail(UserDto.addUser userDto) {
         return userRepository.existsByEmailAndUserStatus(userDto.getEmail(), UserStatus.ACTIVE);
     }
 
-    public boolean duplicateCheckUsername(UserDto userDto) {
+    public boolean duplicateCheckUsername(UserDto.addUser userDto) {
         return userRepository.existsByUsernameAndUserStatus(userDto.getUsername(), UserStatus.ACTIVE);
     }
 }

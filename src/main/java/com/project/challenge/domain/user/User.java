@@ -1,11 +1,7 @@
 package com.project.challenge.domain.user;
 
-import com.project.challenge.config.BooleanToYNConverter;
 import com.project.challenge.domain.BaseEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -14,7 +10,6 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@DynamicInsert
 public class User extends BaseEntity {
 
     @Id
