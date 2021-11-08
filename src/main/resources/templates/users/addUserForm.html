@@ -10,27 +10,8 @@
             <div class="py-5 text-center">
                 <h2>회원 가입</h2>
             </div>
+
             <form class="contact-form row" action="#" th:action="@{/users/join}" th:object="${user}" th:method="post">
-                <div class="col-12">
-                    <div class="form-floating mb-4">
-                        <input type="text" id="userId" th:name="userId" th:field="*{userId}" placeholder="아이디"
-                               class="form-control form-control-lg light-300"
-                               th:errorclass="field-error">
-                        <label for="floatingname light-300">아이디</label>
-                    </div>
-                    <div class="field-error" th:errors="*{userId}" />
-                </div><!--end Id-->
-
-                <div class="col-12">
-                    <div class="form-floating mb-4">
-                        <input type="password" id="password" th:name="password" th:field="*{password}" placeholder="비밀번호"
-                               class="form-control form-control-lg light-300"
-                               th:errorclass="field-error">
-                        <label for="floatingname light-300">비밀번호</label>
-                    </div>
-                    <div class="field-error" th:errors="*{password}" />
-                </div><!--end password-->
-
                 <div class="col-12">
                     <div class="form-floating mb-4">
                         <input type="text" id="email" th:name="email" th:field="*{email}" placeholder="이메일"
@@ -40,7 +21,15 @@
                     </div>
                     <div class="field-error" th:errors="*{email}" />
                 </div><!--end email-->
-
+                <div class="col-12">
+                    <div class="form-floating mb-4">
+                        <input type="password" id="password" th:name="password" th:field="*{password}" placeholder="비밀번호"
+                               class="form-control form-control-lg light-300"
+                               th:errorclass="field-error">
+                        <label for="floatingname light-300">비밀번호</label>
+                    </div>
+                    <div class="field-error" th:errors="*{password}" />
+                </div><!--end password-->
                 <div class="col-12">
                     <div class="form-floating mb-4">
                         <input type="text" id="name" th:name="username" th:field="*{username}" placeholder="닉네임"

@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 
 @Component
 @RequiredArgsConstructor
-public class UserValidator implements Validator {
+public class addUserFormValidator implements Validator {
 
     private final UserService userService;
 
@@ -21,11 +21,7 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         UserDto.addUser userDto = (UserDto.addUser) target;
-        //활동중인 회원의 아이디와 중복되는지 체크한다.
-        if (userService.duplicateCheckUserId(userDto)) {
-            errors.rejectValue("userId", "Duplicate.user.userId",
-                    new Object[]{userDto.getUserId()},"사용중인 아이디");
-        }
+
         //활동중인 회원의 이메일과 중복되는지 체크한다.
         if (userService.duplicateCheckEmail(userDto)) {
             errors.rejectValue("email", "Duplicate.user.email",

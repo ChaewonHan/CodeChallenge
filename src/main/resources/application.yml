@@ -1,13 +1,9 @@
 spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/coding-challenge
-    #url: jdbc:h2:tcp://localhost/~/test
     username: root
     password: j269852
     driver-class-name: org.mariadb.jdbc.Driver
-    #driver-class-name: org.h2.Driver
-    #username: sa
-    #password:
   jpa:
     hibernate:
       ddl-auto: none

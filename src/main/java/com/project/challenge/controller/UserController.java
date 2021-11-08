@@ -2,7 +2,7 @@ package com.project.challenge.controller;
 
 import com.project.challenge.domain.user.UserDto;
 import com.project.challenge.service.user.UserService;
-import com.project.challenge.validator.UserValidator;
+import com.project.challenge.validator.addUserFormValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-    private final UserValidator userValidator;
+    private final addUserFormValidator addUserFormValidator;
 
     /**
      * Controller 메서드 실행할 때마다 Validator를 호출한다.
@@ -27,7 +27,7 @@ public class UserController {
      * */
     @InitBinder
     public void init(WebDataBinder binder) {
-        binder.addValidators(userValidator);
+        binder.addValidators(addUserFormValidator);
     }
 
     @GetMapping("/join")

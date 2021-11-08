@@ -16,24 +16,20 @@ public class UserDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class addUser {
 
-        @Pattern(regexp = "[a-zA-Z1-9]{5,20}")
-        private String userId;
+        @NotBlank
+        @Email
+        private String email;
 
         @Setter
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$")
         private String password;
 
         @NotBlank
-        @Email
-        private String email;
-
-        @NotBlank
-        @Length(max=10)
+        @Length(max = 10)
         private String username;
 
         @Builder
-        public addUser(String userId, String password, String email, String username) {
-            this.userId = userId;
+        public addUser(String password, String email, String username) {
             this.password = password;
             this.email = email;
             this.username = username;
@@ -41,7 +37,6 @@ public class UserDto {
 
         public User toEntity() {
             return User.builder()
-                    .userId(userId)
                     .password(password)
                     .email(email)
                     .username(username)
@@ -50,5 +45,17 @@ public class UserDto {
 
     }
 
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class loginUser {
 
+        @NotBlank
+        private String email;
+
+        @Setter
+        @NotBlank
+        private String password;
+    }
 }
