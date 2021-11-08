@@ -1,8 +1,6 @@
 package com.project.challenge.validator;
 
-import com.project.challenge.domain.user.UserStatus;
-import com.project.challenge.dto.UserDto;
-import com.project.challenge.repository.UserRepository;
+import com.project.challenge.domain.user.UserDto;
 import com.project.challenge.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,7 +15,7 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return UserDto.class.isAssignableFrom(clazz);
+        return UserDto.addUser.class.isAssignableFrom(clazz);
     }
 
     @Override

@@ -10,12 +10,7 @@
             <div class="py-5 text-center">
                 <h2>회원 가입</h2>
             </div>
-            <h4 class="mb-3">회원 정보 입력</h4>
             <form class="contact-form row" action="#" th:action="@{/users/join}" th:object="${user}" th:method="post">
-                <div th:if="${#fields.hasGlobalErrors()}">
-                    <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
-                </div>
-
                 <div class="col-12">
                     <div class="form-floating mb-4">
                         <input type="text" id="userId" th:name="userId" th:field="*{userId}" placeholder="아이디"

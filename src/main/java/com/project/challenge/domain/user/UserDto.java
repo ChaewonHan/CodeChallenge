@@ -1,4 +1,4 @@
-package com.project.challenge.dto;
+package com.project.challenge.domain.user;
 
 import com.project.challenge.domain.BaseEntity;
 import com.project.challenge.domain.user.User;
@@ -12,17 +12,19 @@ import javax.validation.constraints.Pattern;
 
 public class UserDto {
 
-    @Getter @Setter
+    @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class addUser {
+
         @Pattern(regexp = "[a-zA-Z1-9]{5,20}")
         private String userId;
 
+        @Setter
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$")
         private String password;
 
-        @Email
         @NotBlank
+        @Email
         private String email;
 
         @NotBlank
