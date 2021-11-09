@@ -62,13 +62,13 @@ class UserServiceTest {
     void loginFailExceptionTest() {
         //given
         UserDto.loginUser loginUser = createLoginUser();
-        when(userRepository.findByEmail(eq(user.getEmail()), eq(UserStatus.ACTIVE))).thenReturn(of(user));
+        when(userRepository.findByEmailAndUserStatus(eq(user.getEmail()), eq(UserStatus.ACTIVE))).thenReturn(of(user));
 
         //when
         assertThrows(LoginFailException.class, () -> userService.loginUser(loginUser));
 
         //then
-        verify(userRepository, atLeastOnce()).findByEmail(loginUser.getEmail(), UserStatus.ACTIVE);
+        verify(userRepository, atLeastOnce()).findByEmailAndUserStatus(loginUser.getEmail(), UserStatus.ACTIVE);
 
     }
 

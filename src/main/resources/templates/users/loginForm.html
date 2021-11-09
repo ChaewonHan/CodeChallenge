@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<nav th:replace="fragments/header-nav :: header-nav"></nav>
+<section class="container py-5">
+    <div class="row pb-4">
+        <div class="py-5 text-center">
+            <h2>로그인</h2>
+        </div>
+        <form class="contact-form row" th:action th:object="${user}" method="post">
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+                   th:text="${err}">전체 오류 메시지</p>
+            </div>
+            <div class="col-12">
+                <div class="form-floating mb-4">
+                    <input type="text" id="email" th:name="email" th:field="*{email}" placeholder="이메일"
+                           class="form-control form-control-lg light-300"
+                           th:errorclass="field-error">
+                    <label for="floatingname light-300">이메일</label>
+                </div>
+                <div class="field-error" th:errors="*{email}" />
+            </div><!--end email-->
+            <div class="col-12">
+                <div class="form-floating mb-4">
+                    <input type="password" id="password" th:name="password" th:field="*{password}" placeholder="비밀번호"
+                           class="form-control form-control-lg light-300"
+                           th:errorclass="field-error">
+                    <label for="floatingname light-300">비밀번호</label>
+                </div>
+                <div class="field-error" th:errors="*{password}" />
+            </div><!--end password-->
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-12 col-12 m-auto text-center">
+                    <button class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300" type="submit">
+                        로그인</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</html>

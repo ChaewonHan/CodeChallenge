@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -27,8 +29,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void loginUser(UserDto.loginUser userDto) {
-        String password = findByEmail(userDto).getPassword();
+    public Optional<UserDto.loginUser> loginUser(UserDto.loginUser userDto) {
+        String password = findEmail(userDto).getPassword();
 
         if (passwordEncoder.matches(userDto.getPassword(), password)) {
             log.info("로그인 성공");
@@ -37,11 +39,11 @@ public class UserService {
             throw new LoginFailException("이메일 또는 비밀번호가 잘못 입력 되었습니다.");
         }
 
+        return Optional.of(userDto);
     }
 
-    @Transactional
-    public User findByEmail(UserDto.loginUser userDto) {
-        return userRepository.findByEmail(userDto.getEmail(), UserStatus.ACTIVE)
+    public User findEmail(UserDto.loginUser userDto) {
+        return userRepository.findByEmailAndUserStatus(userDto.getEmail(), UserStatus.ACTIVE)
                 .orElseThrow(() -> new LoginFailException("이메일 또는 비밀번호가 잘못 입력 되었습니다."));
     }
 
