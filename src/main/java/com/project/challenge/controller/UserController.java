@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,21 +52,22 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String LoginUserForm(@ModelAttribute("user") UserDto.loginUser userDto) {
+    public String LoginUserForm(@ModelAttribute("user") UserDto.loginUser userDto, BindingResult result) {
+        if (result.hasErrors()) {
+            log.info("errors={}", result);
+            return "users/loginForm";
+        }
         return "users/loginForm";
     }
 
     @PostMapping("/login")
     public String loginUser(@Valid @ModelAttribute("user") UserDto.loginUser userDto, BindingResult result, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            log.info("errors={}", result);
-            return "users/loginForm";
-        }
+        Optional<UserDto.loginUser> loginUser;
 
-        Optional<UserDto.loginUser> loginUser = userService.loginUser(userDto);
-        //가입된 회원인지 체크
-        if(loginUser.isEmpty()) {
-            result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+        try {
+            loginUser = userService.loginUser(userDto);
+        } catch (LoginFailException e) {
+            result.addError(new FieldError("field-error", "email", e.getMessage()));
             return "users/loginForm";
         }
 
