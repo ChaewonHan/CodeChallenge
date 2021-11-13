@@ -2,9 +2,10 @@ package com.project.challenge.controller;
 
 import com.project.challenge.config.session.SessionConst;
 import com.project.challenge.domain.user.UserDto;
+import com.project.challenge.exception.DuplicateEmailException;
+import com.project.challenge.exception.DuplicateUsernameException;
 import com.project.challenge.exception.LoginFailException;
 import com.project.challenge.service.user.UserService;
-import com.project.challenge.validator.addUserFormValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,16 +26,8 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final addUserFormValidator addUserFormValidator;
+    private final HttpSession session;
 
-    /**
-     * Controller 메서드 실행할 때마다 Validator를 호출한다.
-     * 모든 Controller 메서드는 검증을 거치게 된다.
-     */
-/*    @InitBinder
-    public void init(WebDataBinder binder) {
-        binder.addValidators(addUserFormValidator);
-    }*/
     @GetMapping("/join")
     public String addUserForm(@ModelAttribute("user") UserDto.addUser userDto) {
         return "users/addUserForm";
@@ -47,33 +40,39 @@ public class UserController {
             log.info("errors={}", result);
             return "users/addUserForm";
         }
-        userService.userSave(userDto);
+
+        try {
+            userService.userSave(userDto);
+        } catch (DuplicateEmailException e) {
+            result.addError(new FieldError("field-error", "email", e.getMessage()));
+            return "users/addUserForm";
+        } catch (DuplicateUsernameException e) {
+            result.addError(new FieldError("field-error", "username", e.getMessage()));
+            return "users/addUserForm";
+        }
         return "redirect:/";
     }
 
     @GetMapping("/login")
     public String LoginUserForm(@ModelAttribute("user") UserDto.loginUser userDto, BindingResult result) {
-        if (result.hasErrors()) {
-            log.info("errors={}", result);
-            return "users/loginForm";
-        }
         return "users/loginForm";
     }
 
     @PostMapping("/login")
     public String loginUser(@Valid @ModelAttribute("user") UserDto.loginUser userDto, BindingResult result, HttpServletRequest request) {
-        Optional<UserDto.loginUser> loginUser;
+        if (result.hasErrors()) {
+            log.info("errors={}", result);
+            return "users/loginForm";
+        }
 
         try {
-            loginUser = userService.loginUser(userDto);
+            userService.loginUser(userDto);
         } catch (LoginFailException e) {
             result.addError(new FieldError("field-error", "email", e.getMessage()));
             return "users/loginForm";
         }
 
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_USER, loginUser);
-
+        session.setAttribute(SessionConst.LOGIN_USER, userDto.getEmail());
         return "redirect:/";
     }
 }
