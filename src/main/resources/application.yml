@@ -18,3 +18,7 @@ spring:
     suffix: .html
   messages:
     basename: validation
+  server:
+    servlet:
+      session:
+        timeout: 1800

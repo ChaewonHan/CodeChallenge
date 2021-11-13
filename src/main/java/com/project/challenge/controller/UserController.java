@@ -26,7 +26,6 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final HttpSession session;
 
     @GetMapping("/join")
     public String addUserForm(@ModelAttribute("user") UserDto.addUser userDto) {
@@ -71,8 +70,18 @@ public class UserController {
             result.addError(new FieldError("field-error", "email", e.getMessage()));
             return "users/loginForm";
         }
-
+        HttpSession session = request.getSession(true);
         session.setAttribute(SessionConst.LOGIN_USER, userDto.getEmail());
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            log.info("로그아웃");
+            session.invalidate();
+        }
         return "redirect:/";
     }
 }
