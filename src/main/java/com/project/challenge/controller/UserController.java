@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String joinUser(@Valid @ModelAttribute("user") UserDto.addUser userDto, BindingResult result) {
+    public String joinUser(@Valid @ModelAttribute("user") UserDto.addUser userDto, BindingResult result, HttpServletRequest request) {
         // 예외가 발생하면 회원가입 폼으로 redirect
         if (result.hasErrors()) {
             log.info("errors={}", result);
@@ -49,6 +49,7 @@ public class UserController {
             result.addError(new FieldError("field-error", "username", e.getMessage()));
             return "users/addUserForm";
         }
+        createSession(userDto.getEmail(), request);
         return "redirect:/";
     }
 
@@ -70,8 +71,8 @@ public class UserController {
             result.addError(new FieldError("field-error", "email", e.getMessage()));
             return "users/loginForm";
         }
-        HttpSession session = request.getSession(true);
-        session.setAttribute(SessionConst.LOGIN_USER, userDto.getEmail());
+
+        createSession(userDto.getEmail(), request);
         return "redirect:/";
     }
 
@@ -83,5 +84,10 @@ public class UserController {
             session.invalidate();
         }
         return "redirect:/";
+    }
+
+    private void createSession(String email, HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        session.setAttribute(SessionConst.LOGIN_USER, email);
     }
 }

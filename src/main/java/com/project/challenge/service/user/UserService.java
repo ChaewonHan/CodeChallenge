@@ -25,7 +25,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     public void userSave(UserDto.addUser userDto){
         if (duplicateCheckEmail(userDto.getEmail())) {
             throw new DuplicateEmailException("사용중인 이메일 입니다.");
@@ -39,7 +38,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional
     public void loginUser(UserDto.loginUser userDto) {
         String password = findEmail(userDto.getEmail()).getPassword();
 
@@ -51,7 +49,6 @@ public class UserService {
         }
     }
 
-    @Transactional
     public User findEmail(String email) {
         return userRepository.findByEmailAndUserStatus(email, UserStatus.ACTIVE)
                 .orElseThrow(() -> new LoginFailException("이메일 또는 비밀번호가 잘못 입력 되었습니다."));
