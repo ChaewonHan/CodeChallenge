@@ -1,21 +1,17 @@
 package com.project.challenge.service.user;
 
-import com.project.challenge.config.session.SessionConst;
 import com.project.challenge.domain.user.User;
 import com.project.challenge.domain.user.UserStatus;
 import com.project.challenge.domain.user.UserDto;
-import com.project.challenge.exception.DuplicateEmailException;
-import com.project.challenge.exception.DuplicateUsernameException;
-import com.project.challenge.exception.LoginFailException;
+import com.project.challenge.exception.user.DuplicateEmailException;
+import com.project.challenge.exception.user.DuplicateUsernameException;
+import com.project.challenge.exception.user.LoginFailException;
 import com.project.challenge.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

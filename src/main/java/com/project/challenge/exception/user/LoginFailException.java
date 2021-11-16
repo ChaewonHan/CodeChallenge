@@ -1,4 +1,4 @@
-package com.project.challenge.exception;
+package com.project.challenge.exception.user;
 
 public class LoginFailException extends RuntimeException {
 

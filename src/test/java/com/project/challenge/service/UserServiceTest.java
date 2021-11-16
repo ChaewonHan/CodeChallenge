@@ -3,31 +3,25 @@ package com.project.challenge.service;
 import com.project.challenge.domain.user.User;
 import com.project.challenge.domain.user.UserDto;
 import com.project.challenge.domain.user.UserStatus;
-import com.project.challenge.exception.DuplicateEmailException;
-import com.project.challenge.exception.DuplicateUsernameException;
-import com.project.challenge.exception.LoginFailException;
+import com.project.challenge.exception.user.DuplicateEmailException;
+import com.project.challenge.exception.user.DuplicateUsernameException;
+import com.project.challenge.exception.user.LoginFailException;
 import com.project.challenge.repository.UserRepository;
 import com.project.challenge.service.user.UserService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
-import static java.util.Optional.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {

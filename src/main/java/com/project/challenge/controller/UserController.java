@@ -2,22 +2,21 @@ package com.project.challenge.controller;
 
 import com.project.challenge.config.session.SessionConst;
 import com.project.challenge.domain.user.UserDto;
-import com.project.challenge.exception.DuplicateEmailException;
-import com.project.challenge.exception.DuplicateUsernameException;
-import com.project.challenge.exception.LoginFailException;
+import com.project.challenge.exception.user.DuplicateEmailException;
+import com.project.challenge.exception.user.DuplicateUsernameException;
+import com.project.challenge.exception.user.LoginFailException;
 import com.project.challenge.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.WebDataBinder;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,12 +33,14 @@ public class UserController {
 
     @PostMapping("/join")
     public String joinUser(@Valid @ModelAttribute("user") UserDto.addUser userDto, BindingResult result, HttpServletRequest request) {
-        // 예외가 발생하면 회원가입 폼으로 redirect
+
         if (result.hasErrors()) {
             log.info("errors={}", result);
             return "users/addUserForm";
         }
 
+        // 이미 존재하는 이메일, 닉네임이면 exception을 발생시킨다.
+        // exception 메세지를 BindingResult에 담고 view에서 message를 출력한다.
         try {
             userService.userSave(userDto);
         } catch (DuplicateEmailException e) {
@@ -68,7 +69,7 @@ public class UserController {
         try {
             userService.loginUser(userDto);
         } catch (LoginFailException e) {
-            result.addError(new FieldError("field-error", "email", e.getMessage()));
+            result.addError(new ObjectError("email", e.getMessage()));
             return "users/loginForm";
         }
 
