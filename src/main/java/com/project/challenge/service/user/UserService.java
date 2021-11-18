@@ -7,6 +7,7 @@ import com.project.challenge.exception.user.DuplicateEmailException;
 import com.project.challenge.exception.user.DuplicateUsernameException;
 import com.project.challenge.exception.user.LoginFailException;
 import com.project.challenge.repository.UserRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
