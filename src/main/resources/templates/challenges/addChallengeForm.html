@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+<nav th:replace="fragments/header-nav :: header-nav"></nav>
+<section class="container py-5">
+    <div class="row pb-4">
+        <div class="py-5 text-center">
+            <h2>챌린지 개설</h2>
+        </div>
+
+        <form class="contact-form row" method="post" action="/challenges" role="form">
+            <div class="col-12">
+                <div class="form-floating mb-4">
+                    <input type="text" class="form-control form-control-lg light-300" id="floatingsubject" name="inputsubject" placeholder="제목">
+                    <label for="floatingsubject light-300">제목</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-floating mb-4">
+                    <select class="form-select" id="floatingcategory" name="inputcategory" placeholder="카테고리 선택">
+                        <option selected hidden>챌린지 카테고리 선택</option>
+                        <option value="language">프로그래밍 언어</option>
+                        <option value="frontend">프론드엔드</option>
+                        <option value="backend">백엔드</option>
+                        <option value="app">모바일 앱 개발</option>
+                        <option value="database">데이터베이스</option>
+                        <option value="algorithm">알고리즘/자료구조</option>
+                        <option value="etc">기타</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-floating mb-4">
+                    <textarea class="form-control light-300" rows="14" placeholder="본문" id="floatingtextarea"></textarea>
+                    <label for="floatingtextarea light-300">본문</label>
+                </div>
+            </div>
+            <div class="col-md-12 col-12 m-auto text-center">
+                <button type="submit" class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">개설하기</button>
+            </div>
+        </form>
+    </div>
+
+</section>
+
+</body>
+<footer th:replace="fragments/footer :: footer"></footer>
+
+</html>

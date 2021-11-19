@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class ChallengeDto {
@@ -25,6 +26,7 @@ public class ChallengeDto {
         @Length(max = 3000)
         private String content;
 
+        @NotNull
         private String category;
 
         @NotBlank
