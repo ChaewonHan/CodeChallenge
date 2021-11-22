@@ -30,7 +30,7 @@ public class ChallengeRepositoryTest {
                 .content("테스트입니다.")
                 .category("백엔드")
                 .startDate(new Date())
-                .endDate(new Date())
+                .period(52)
                 .build();
 
         Challenge challenge = addChallenge.toEntity();

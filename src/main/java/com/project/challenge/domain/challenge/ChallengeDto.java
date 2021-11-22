@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Calendar;
 import java.util.Date;
 
 public class ChallengeDto {
@@ -34,16 +35,18 @@ public class ChallengeDto {
         private Date startDate;
 
         @NotBlank
+        private int period;
+
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private Date endDate;
 
         @Builder
-        public addChallenge(String title, String content, String category, Date startDate, Date endDate) {
+        public addChallenge(String title, String content, String category, Date startDate, int period, Date endDate) {
             this.title = title;
             this.content = content;
             this.category = category;
             this.startDate = startDate;
-            this.endDate = endDate;
+            this.period = period;
         }
 
         public Challenge toEntity() {
@@ -52,8 +55,18 @@ public class ChallengeDto {
                     .challengeContent(content)
                     .category(category)
                     .startDate(startDate)
-                    .endDate(endDate)
+                    .endDate(toDateTimeFormat())
                     .build();
+        }
+
+        private Date toDateTimeFormat() {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startDate);
+            int day = period * 7;
+            cal.add(Calendar.DATE, day);
+            endDate = cal.getTime();
+
+            return endDate;
         }
 
     }

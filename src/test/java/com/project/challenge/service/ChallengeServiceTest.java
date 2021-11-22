@@ -1,8 +1,10 @@
 package com.project.challenge.service;
 
+import com.project.challenge.domain.challenge.Challenge;
 import com.project.challenge.domain.challenge.ChallengeDto;
 import com.project.challenge.repository.ChallengeRepository;
 import com.project.challenge.service.challenge.ChallengeService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -36,7 +39,5 @@ class ChallengeServiceTest {
                 .endDate(new Date())
                 .build();
     }
-
-
 
 }
