@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String LoginUserForm(@ModelAttribute("user") UserDto.loginUser userDto, BindingResult result) {
+    public String LoginUserForm(@ModelAttribute("user") UserDto.loginUser userDto) {
         return "users/loginForm";
     }
 
@@ -66,7 +66,6 @@ public class UserController {
             log.info("errors={}", result);
             return "users/loginForm";
         }
-        log.info("되라고 좀"+requestURL);
         try {
             userService.loginUser(userDto);
         } catch (LoginFailException e) {

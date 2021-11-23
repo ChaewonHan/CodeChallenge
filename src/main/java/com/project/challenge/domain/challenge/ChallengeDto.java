@@ -7,11 +7,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 public class ChallengeDto {
 
@@ -27,26 +31,29 @@ public class ChallengeDto {
         @Length(max = 3000)
         private String content;
 
-        @NotNull
+        @NotEmpty
         private String category;
 
-        @NotBlank
+        @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
+        @Temporal(TemporalType.DATE)
         private Date startDate;
 
-        @NotBlank
-        private int period;
+        @NotNull
+        private Integer period;
 
         @DateTimeFormat(pattern = "yyyy-MM-dd")
+        @Temporal(TemporalType.DATE)
         private Date endDate;
 
         @Builder
-        public addChallenge(String title, String content, String category, Date startDate, int period, Date endDate) {
+        public addChallenge(String title, String content, String category, Date startDate, Integer period, Date endDate) {
             this.title = title;
             this.content = content;
             this.category = category;
             this.startDate = startDate;
             this.period = period;
+            this.endDate = endDate;
         }
 
         public Challenge toEntity() {

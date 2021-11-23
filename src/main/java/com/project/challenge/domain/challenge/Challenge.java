@@ -1,6 +1,7 @@
 package com.project.challenge.domain.challenge;
 
 import com.project.challenge.domain.BaseEntity;
+import com.project.challenge.domain.CreateDateEntity;
 import com.project.challenge.domain.authentication.Authentication;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,10 +13,10 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity
+@Entity(name = "challenges")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Challenge extends BaseEntity {
+public class Challenge extends CreateDateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

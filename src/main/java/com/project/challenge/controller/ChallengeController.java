@@ -11,21 +11,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class ChallengeController {
 
-    private ChallengeService challengeService;
+    private final ChallengeService challengeService;
 
     @GetMapping("/challenges/add")
-    public String addChallengeForm(@ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge, BindingResult result) {
+    public String addChallengeForm(@ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge) {
         return "challenges/addChallengeForm";
     }
 
     @PostMapping("/challenges")
-    public String saveChallenge(@ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge) {
+    public String saveChallenge(@Valid @ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge, BindingResult result) {
+        if (result.hasErrors()) {
+            log.info("errors={}", result);
+            return "challenges/addChallengeForm";
+        }
+
         challengeService.saveChallenge(addChallenge);
-        return "challenges/addChallengeForm";
+        return "redirect:/";
     }
 }
