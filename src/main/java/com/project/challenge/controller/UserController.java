@@ -60,12 +60,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@Valid @ModelAttribute("user") UserDto.loginUser userDto, BindingResult result, HttpServletRequest request) {
+    public String loginUser(@Valid @ModelAttribute("user") UserDto.loginUser userDto, BindingResult result,
+                            @RequestParam(value = "redirectURL", defaultValue = "/") String requestURL, HttpServletRequest request) {
         if (result.hasErrors()) {
             log.info("errors={}", result);
             return "users/loginForm";
         }
-
+        log.info("되라고 좀"+requestURL);
         try {
             userService.loginUser(userDto);
         } catch (LoginFailException e) {
@@ -74,7 +75,7 @@ public class UserController {
         }
 
         createSession(userDto.getEmail(), request);
-        return "redirect:/";
+        return "redirect:" + requestURL;
     }
 
     @GetMapping("/logout")

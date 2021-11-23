@@ -59,7 +59,7 @@ public class ChallengeDto {
                     .build();
         }
 
-        private Date toDateTimeFormat() {
+        public Date toDateTimeFormat() {
             Calendar cal = Calendar.getInstance();
             cal.setTime(startDate);
             int day = period * 7;

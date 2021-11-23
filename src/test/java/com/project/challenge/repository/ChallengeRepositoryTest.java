@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
@@ -30,7 +31,7 @@ public class ChallengeRepositoryTest {
                 .content("테스트입니다.")
                 .category("백엔드")
                 .startDate(new Date())
-                .period(52)
+                .period(2)
                 .build();
 
         Challenge challenge = addChallenge.toEntity();
@@ -39,6 +40,6 @@ public class ChallengeRepositoryTest {
         Challenge dbChallenge = challengeRepository.save(challenge);
 
         //then
-        Assertions.assertThat(challenge.getChallengeTitle()).isEqualTo(challenge.getChallengeTitle());
+        Assertions.assertThat(dbChallenge.getEndDate()).isEqualTo(challenge.getEndDate());
     }
 }
