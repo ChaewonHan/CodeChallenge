@@ -63,7 +63,7 @@ public class ChallengeControllerTest {
                 .period(2)
                 .build();
 
-        doNothing().when(challengeService).saveChallenge(challenge);
+        //doNothing().when(challengeService).saveChallenge(challenge);
 
         mockMvc.perform(post("/challenges")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)

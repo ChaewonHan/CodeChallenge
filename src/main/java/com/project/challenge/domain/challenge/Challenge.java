@@ -45,11 +45,17 @@ public class Challenge extends CreateDateEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
-    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "challenge")
     private List<Authentication> authentication;
 
+    @Column
+    private String originalFilePath;
+
+    @Column
+    private String thumbnailFilePath;
+
     @Builder
-    public Challenge(Long challengeNo, String challengeTitle, String challengeContent, String category, ChallengeStatus challengeStatus, Date startDate, Date endDate, List<Authentication> authentication) {
+    public Challenge(Long challengeNo, String challengeTitle, String challengeContent, String category, ChallengeStatus challengeStatus, Date startDate, Date endDate, List<Authentication> authentication, String originalFilePath, String thumbnailFilePath) {
         this.challengeNo = challengeNo;
         this.challengeTitle = challengeTitle;
         this.challengeContent = challengeContent;
@@ -58,5 +64,7 @@ public class Challenge extends CreateDateEntity {
         this.startDate = startDate;
         this.endDate = endDate;
         this.authentication = authentication;
+        this.originalFilePath = originalFilePath;
+        this.thumbnailFilePath = thumbnailFilePath;
     }
 }

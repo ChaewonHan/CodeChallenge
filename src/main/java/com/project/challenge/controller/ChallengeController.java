@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -26,13 +28,14 @@ public class ChallengeController {
     }
 
     @PostMapping("/challenges")
-    public String saveChallenge(@Valid @ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge, BindingResult result) {
+    public String saveChallenge(@Valid @ModelAttribute ChallengeDto.addChallenge addChallenge,
+                                @RequestPart(required = false) MultipartFile file, BindingResult result) {
         if (result.hasErrors()) {
             log.info("errors={}", result);
             return "challenges/addChallengeForm";
         }
 
-        challengeService.saveChallenge(addChallenge);
+        challengeService.saveChallenge(addChallenge, file);
         return "redirect:/";
     }
 }

@@ -40,7 +40,7 @@
             <h2>챌린지 개설</h2>
         </div>
 
-        <form class="contact-form row" th:method="post" th:object="${challenge}" th:action="@{/challenges}">
+        <form class="contact-form row" method="post" th:object="${challenge}" th:action="@{/challenges}" enctype="multipart/form-data">
             <div class="col-12">
                 <div class="form-floating mb-4">
                     <input type="text" class="form-control form-control-lg light-300" th:name="title" placeholder="제목"
@@ -84,6 +84,9 @@
                         <label for="floatingsubject light-300">챌린지 기간(주 단위)</label>
                 </div>
                 <div class="field-error" th:errors="*{period}" />
+            </div>
+            <div class="col-12">
+                <input type="file" name="file">
             </div>
             <div class="col-12">
                 <div class="form-floating mb-4">

@@ -1,9 +1,6 @@
 package com.project.challenge.domain.challenge;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -46,15 +43,26 @@ public class ChallengeDto {
         @Temporal(TemporalType.DATE)
         private Date endDate;
 
+        private String originalFilePath;
+
+        private String thumbnailFilePath;
+
+        public void setFilePath(String originalFilePath) {
+            this.originalFilePath = originalFilePath;
+        }
+
         @Builder
-        public addChallenge(String title, String content, String category, Date startDate, Integer period, Date endDate) {
+        public addChallenge(String title, String content, String category, Date startDate, Integer period, Date endDate, String originalFilePath, String thumbnailFilePath) {
             this.title = title;
             this.content = content;
             this.category = category;
             this.startDate = startDate;
             this.period = period;
             this.endDate = endDate;
+            this.originalFilePath = originalFilePath;
+            this.thumbnailFilePath = thumbnailFilePath;
         }
+
 
         public Challenge toEntity() {
             return Challenge.builder()
@@ -63,6 +71,8 @@ public class ChallengeDto {
                     .category(category)
                     .startDate(startDate)
                     .endDate(toDateTimeFormat())
+                    .originalFilePath(originalFilePath)
+                    .thumbnailFilePath(thumbnailFilePath)
                     .build();
         }
 
