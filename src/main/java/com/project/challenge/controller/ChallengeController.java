@@ -22,19 +22,17 @@ public class ChallengeController {
 
     private final ChallengeService challengeService;
 
-    @GetMapping("/challenges/add")
+    @GetMapping("/challenges")
     public String addChallengeForm(@ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge) {
         return "challenges/addChallengeForm";
     }
 
     @PostMapping("/challenges")
-    public String saveChallenge(@Valid @ModelAttribute ChallengeDto.addChallenge addChallenge,
-                                @RequestPart(required = false) MultipartFile file, BindingResult result) {
+    public String saveChallenge(@RequestPart(required = false) MultipartFile file, @Valid @ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge, BindingResult result) {
         if (result.hasErrors()) {
             log.info("errors={}", result);
             return "challenges/addChallengeForm";
         }
-
         challengeService.saveChallenge(addChallenge, file);
         return "redirect:/";
     }

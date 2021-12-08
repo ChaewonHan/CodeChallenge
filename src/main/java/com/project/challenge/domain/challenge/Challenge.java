@@ -28,19 +28,19 @@ public class Challenge extends CreateDateEntity {
     @Column(nullable = false)
     private String challengeContent;
 
-    @Column
+    @Column(nullable = false)
     private String category;
 
     @Column(insertable = false)
     @Enumerated(EnumType.STRING)
     private ChallengeStatus challengeStatus;
 
-    @Column
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
-    @Column
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
@@ -49,13 +49,10 @@ public class Challenge extends CreateDateEntity {
     private List<Authentication> authentication;
 
     @Column
-    private String originalFilePath;
-
-    @Column
     private String thumbnailFilePath;
 
     @Builder
-    public Challenge(Long challengeNo, String challengeTitle, String challengeContent, String category, ChallengeStatus challengeStatus, Date startDate, Date endDate, List<Authentication> authentication, String originalFilePath, String thumbnailFilePath) {
+    public Challenge(Long challengeNo, String challengeTitle, String challengeContent, String category, ChallengeStatus challengeStatus, Date startDate, Date endDate, List<Authentication> authentication, String thumbnailFilePath) {
         this.challengeNo = challengeNo;
         this.challengeTitle = challengeTitle;
         this.challengeContent = challengeContent;
@@ -64,7 +61,6 @@ public class Challenge extends CreateDateEntity {
         this.startDate = startDate;
         this.endDate = endDate;
         this.authentication = authentication;
-        this.originalFilePath = originalFilePath;
         this.thumbnailFilePath = thumbnailFilePath;
     }
 }

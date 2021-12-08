@@ -13,29 +13,17 @@ import java.io.InputStream;
 
 @Component
 @RequiredArgsConstructor
-public class AwsS3FileUpload implements FileUpload {
+public class AwsS3Service {
 
     private final AmazonS3Client amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${cloud.aws.region.static}")
-    private String region;
-
-    @Override
     public void uploadFile(InputStream inputStream, ObjectMetadata objectMetadata, String filename) {
-        System.out.println("region = " + amazonS3.getRegion());
-        System.out.println("region = " + region);
         amazonS3.putObject(new PutObjectRequest(bucket, filename, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicReadWrite));
     }
 
-    @Override
-    public void uploadThumbnailFile(InputStream inputStream, ObjectMetadata objectMetadata, String filename) {
-
-    }
-
-    @Override
     public String getFileUrl(String filename) {
         return amazonS3.getUrl(bucket, filename).toString();
     }

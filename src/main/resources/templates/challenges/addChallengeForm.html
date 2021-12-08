@@ -69,7 +69,7 @@
                 <div class="form-floating mb-4">
                     <div class="input-group date" id="startDate" data-target-input="nearest">
                         <input type="text" class="form-control form-control-lg light-300" data-target="#startDate"
-                               th:field="*{startDate}" th:errorclass="field-error" placeholder="챌린지 시작일">
+                               th:field="*{startDate}" th:errorclass="field-error" placeholder="챌린지 시작일" oninput="this.value = this.value.replaceAll(/\D/g, '')">
                         <div class="input-group-append" data-target="#startDate" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -115,6 +115,13 @@
             maxDate: moment().millisecond(0).second(0).minute(0).hour(0).add(30, 'day')
         });
     });
+
+    //input 태그 엔터 submit 방지
+    document.addEventListener('keydown', function(event) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+      };
+    }, true);
 
 </script>
 </body>

@@ -43,23 +43,17 @@ public class ChallengeDto {
         @Temporal(TemporalType.DATE)
         private Date endDate;
 
-        private String originalFilePath;
-
+        @Setter
         private String thumbnailFilePath;
 
-        public void setFilePath(String originalFilePath) {
-            this.originalFilePath = originalFilePath;
-        }
-
         @Builder
-        public addChallenge(String title, String content, String category, Date startDate, Integer period, Date endDate, String originalFilePath, String thumbnailFilePath) {
+        public addChallenge(String title, String content, String category, Date startDate, Integer period, Date endDate, String thumbnailFilePath) {
             this.title = title;
             this.content = content;
             this.category = category;
             this.startDate = startDate;
             this.period = period;
             this.endDate = endDate;
-            this.originalFilePath = originalFilePath;
             this.thumbnailFilePath = thumbnailFilePath;
         }
 
@@ -71,7 +65,6 @@ public class ChallengeDto {
                     .category(category)
                     .startDate(startDate)
                     .endDate(toDateTimeFormat())
-                    .originalFilePath(originalFilePath)
                     .thumbnailFilePath(thumbnailFilePath)
                     .build();
         }

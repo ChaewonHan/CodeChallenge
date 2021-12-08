@@ -2,12 +2,12 @@ package com.project.challenge.service.challenge;
 
 import com.project.challenge.domain.challenge.ChallengeDto;
 import com.project.challenge.repository.ChallengeRepository;
-import com.project.challenge.repository.UserRepository;
-import com.project.challenge.service.file.FileUploadService;
+import com.project.challenge.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -16,12 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class ChallengeService {
 
     private final ChallengeRepository challengeRepository;
-    private final FileUploadService fileUploadService;
+    private final FileService fileService;
 
-    public void saveChallenge(ChallengeDto.addChallenge challengeDto, @Nullable MultipartFile multipartFile) {
-        if (multipartFile != null) {
-            String filePath = fileUploadService.uploadImg(multipartFile);
-            challengeDto.setFilePath(filePath);
+    @Transactional
+    public void saveChallenge(ChallengeDto.addChallenge challengeDto, @Nullable MultipartFile file) {
+        if (!file.getOriginalFilename().isEmpty()) {
+            String filePath = fileService.uploadThumbnail(file);
+            challengeDto.setThumbnailFilePath(filePath);
         }
         challengeRepository.save(challengeDto.toEntity());
     }
