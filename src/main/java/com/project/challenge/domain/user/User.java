@@ -1,7 +1,7 @@
 package com.project.challenge.domain.user;
 
 import com.project.challenge.domain.BaseEntity;
-import com.project.challenge.domain.authentication.Authentication;
+import com.project.challenge.domain.challenge.Challenge;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -32,7 +32,7 @@ public class User extends BaseEntity {
     private UserStatus userStatus;
 
     @OneToMany(mappedBy = "user")
-    private List<Authentication> authentication;
+    private List<Challenge> challenges;
 
     @Builder
     public User(long userNo, String password, String email, String username, UserStatus userStatus) {

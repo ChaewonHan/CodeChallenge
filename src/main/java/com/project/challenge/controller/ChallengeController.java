@@ -1,5 +1,6 @@
 package com.project.challenge.controller;
 
+import com.project.challenge.common.annotaion.LoginCheck;
 import com.project.challenge.domain.challenge.ChallengeDto;
 import com.project.challenge.service.challenge.ChallengeService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +23,13 @@ public class ChallengeController {
 
     private final ChallengeService challengeService;
 
+    @LoginCheck
     @GetMapping("/challenges")
     public String addChallengeForm(@ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge) {
         return "challenges/addChallengeForm";
     }
 
+    @LoginCheck
     @PostMapping("/challenges")
     public String saveChallenge(@RequestPart(required = false) MultipartFile file, @Valid @ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge, BindingResult result) {
         if (result.hasErrors()) {

@@ -31,6 +31,9 @@ public class ChallengeDto {
         @NotEmpty
         private String category;
 
+        @NotEmpty
+        private String username;
+
         @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @Temporal(TemporalType.DATE)
@@ -47,10 +50,11 @@ public class ChallengeDto {
         private String thumbnailFilePath;
 
         @Builder
-        public addChallenge(String title, String content, String category, Date startDate, Integer period, Date endDate, String thumbnailFilePath) {
+        public addChallenge(String title, String content, String category, String username, Date startDate, Integer period, Date endDate, String thumbnailFilePath) {
             this.title = title;
             this.content = content;
             this.category = category;
+            this.username = username;
             this.startDate = startDate;
             this.period = period;
             this.endDate = endDate;
@@ -63,6 +67,7 @@ public class ChallengeDto {
                     .challengeTitle(title)
                     .challengeContent(content)
                     .category(category)
+
                     .startDate(startDate)
                     .endDate(toDateTimeFormat())
                     .thumbnailFilePath(thumbnailFilePath)

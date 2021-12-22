@@ -1,4 +1,4 @@
-package com.project.challenge.config;
+package com.project.challenge.common.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

@@ -1,6 +1,6 @@
 package com.project.challenge.controller;
 
-import com.project.challenge.config.session.SessionConst;
+import com.project.challenge.common.session.SessionConst;
 import com.project.challenge.domain.user.UserDto;
 import com.project.challenge.exception.user.DuplicateEmailException;
 import com.project.challenge.exception.user.DuplicateUsernameException;

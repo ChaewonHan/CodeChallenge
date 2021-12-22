@@ -2,7 +2,7 @@ package com.project.challenge.domain.challenge;
 
 import com.project.challenge.domain.BaseEntity;
 import com.project.challenge.domain.CreateDateEntity;
-import com.project.challenge.domain.authentication.Authentication;
+import com.project.challenge.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,6 +28,10 @@ public class Challenge extends CreateDateEntity {
     @Column(nullable = false)
     private String challengeContent;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username", nullable = false)
+    private User user;
+
     @Column(nullable = false)
     private String category;
 
@@ -45,22 +49,19 @@ public class Challenge extends CreateDateEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
-    @OneToMany(mappedBy = "challenge")
-    private List<Authentication> authentication;
-
     @Column
     private String thumbnailFilePath;
 
     @Builder
-    public Challenge(Long challengeNo, String challengeTitle, String challengeContent, String category, ChallengeStatus challengeStatus, Date startDate, Date endDate, List<Authentication> authentication, String thumbnailFilePath) {
+    public Challenge(Long challengeNo, String challengeTitle, String challengeContent, User user, String category, ChallengeStatus challengeStatus, Date startDate, Date endDate, String thumbnailFilePath) {
         this.challengeNo = challengeNo;
         this.challengeTitle = challengeTitle;
         this.challengeContent = challengeContent;
+        this.user = user;
         this.category = category;
         this.challengeStatus = challengeStatus;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.authentication = authentication;
         this.thumbnailFilePath = thumbnailFilePath;
     }
 }
