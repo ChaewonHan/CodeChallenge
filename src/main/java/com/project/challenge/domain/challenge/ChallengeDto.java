@@ -1,5 +1,6 @@
 package com.project.challenge.domain.challenge;
 
+import com.project.challenge.domain.user.User;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,11 +29,11 @@ public class ChallengeDto {
         @Length(max = 3000)
         private String content;
 
-        @NotEmpty
-        private String category;
+        @Setter
+        private String writer;
 
         @NotEmpty
-        private String username;
+        private String category;
 
         @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -46,32 +47,37 @@ public class ChallengeDto {
         @Temporal(TemporalType.DATE)
         private Date endDate;
 
-        @Setter
         private String thumbnailFilePath;
 
+        private String originalFilename;
+
         @Builder
-        public addChallenge(String title, String content, String category, String username, Date startDate, Integer period, Date endDate, String thumbnailFilePath) {
+        public addChallenge(String title, String content, String category, Date startDate, Integer period, Date endDate, String thumbnailFilePath) {
             this.title = title;
             this.content = content;
             this.category = category;
-            this.username = username;
             this.startDate = startDate;
             this.period = period;
             this.endDate = endDate;
             this.thumbnailFilePath = thumbnailFilePath;
         }
 
-
         public Challenge toEntity() {
             return Challenge.builder()
                     .challengeTitle(title)
                     .challengeContent(content)
                     .category(category)
-
+                    .challengeWriter(writer)
                     .startDate(startDate)
                     .endDate(toDateTimeFormat())
                     .thumbnailFilePath(thumbnailFilePath)
+                    .originalFilename(originalFilename)
                     .build();
+        }
+
+        public void setImage(String thumbnailFilePath, String originalFilename) {
+            this.thumbnailFilePath = thumbnailFilePath;
+            this.originalFilename = originalFilename;
         }
 
         public Date toDateTimeFormat() {

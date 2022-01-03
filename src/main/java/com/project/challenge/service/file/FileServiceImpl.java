@@ -44,7 +44,7 @@ public class FileServiceImpl implements FileService {
 
         try {
             BufferedImage originalImg = ImageIO.read(file.getInputStream());
-            BufferedImage thumbnailImg = Thumbnails.of(originalImg).size(400, 400).asBufferedImage();
+            BufferedImage thumbnailImg = Thumbnails.of(originalImg).size(800, 800).asBufferedImage();
 
             ByteArrayOutputStream thumbOutput = new ByteArrayOutputStream();
             ImageIO.write(thumbnailImg, getFileExtension(filename), thumbOutput);

@@ -48,6 +48,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public User findEmail(String email) {
         return userRepository.findByEmailAndUserStatus(email, UserStatus.ACTIVE)
                 .orElseThrow(() -> new LoginFailException("이메일 또는 비밀번호가 잘못 입력 되었습니다."));
@@ -62,4 +63,5 @@ public class UserService {
     public boolean duplicateCheckUsername(String username) {
         return userRepository.existsByUsernameAndUserStatus(username, UserStatus.ACTIVE);
     }
+
 }

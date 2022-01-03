@@ -1,5 +1,6 @@
 package com.project.challenge.controller;
 
+import com.project.challenge.common.annotaion.CurrentUser;
 import com.project.challenge.common.annotaion.LoginCheck;
 import com.project.challenge.domain.challenge.ChallengeDto;
 import com.project.challenge.service.challenge.ChallengeService;
@@ -31,12 +32,13 @@ public class ChallengeController {
 
     @LoginCheck
     @PostMapping("/challenges")
-    public String saveChallenge(@RequestPart(required = false) MultipartFile file, @Valid @ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge, BindingResult result) {
+    public String saveChallenge(@RequestPart(required = false) MultipartFile file, @Valid @ModelAttribute("challenge") ChallengeDto.addChallenge addChallenge,
+                                BindingResult result, @CurrentUser String email) {
         if (result.hasErrors()) {
             log.info("errors={}", result);
             return "challenges/addChallengeForm";
         }
-        challengeService.saveChallenge(addChallenge, file);
+        challengeService.saveChallenge(addChallenge, email, file);
         return "redirect:/";
     }
 }

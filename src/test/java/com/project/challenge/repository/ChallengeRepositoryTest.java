@@ -3,6 +3,8 @@ package com.project.challenge.repository;
 import com.project.challenge.domain.challenge.Challenge;
 import com.project.challenge.domain.challenge.ChallengeDto;
 import com.project.challenge.domain.challenge.ChallengeStatus;
+import com.project.challenge.domain.user.User;
+import com.project.challenge.domain.user.UserStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,16 @@ public class ChallengeRepositoryTest {
     @Autowired
     ChallengeRepository challengeRepository;
 
+    User userEntity() {
+        return User.builder()
+                .userNo(1L)
+                .email("test@gmail.com")
+                .password("test!1234")
+                .username("test")
+                .userStatus(UserStatus.ACTIVE)
+                .build();
+    }
+
     @Test
     @DisplayName("challenge 저장")
     void save() {
@@ -33,6 +45,7 @@ public class ChallengeRepositoryTest {
                 .startDate(new Date())
                 .period(2)
                 .build();
+
 
         Challenge challenge = addChallenge.toEntity();
 

@@ -31,9 +31,6 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
 
-    @OneToMany(mappedBy = "user")
-    private List<Challenge> challenges;
-
     @Builder
     public User(long userNo, String password, String email, String username, UserStatus userStatus) {
         this.userNo = userNo;
