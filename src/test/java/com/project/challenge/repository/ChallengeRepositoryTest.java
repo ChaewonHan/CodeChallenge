@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @ExtendWith(SpringExtension.class)
@@ -42,7 +43,7 @@ public class ChallengeRepositoryTest {
                 .title("테스트")
                 .content("테스트입니다.")
                 .category("백엔드")
-                .startDate(new Date())
+                .startDate(LocalDate.of(2022,01,01))
                 .period(2)
                 .build();
 

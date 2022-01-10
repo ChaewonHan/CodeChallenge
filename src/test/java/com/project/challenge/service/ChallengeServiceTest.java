@@ -21,7 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,7 +64,7 @@ class ChallengeServiceTest {
                 .title("테스트")
                 .content("테스트입니다.")
                 .category("백엔드")
-                .startDate(new Date(2000-03-20))
+                .startDate(LocalDate.of(2022,01,01))
                 .period(2)
                 .build();
     }

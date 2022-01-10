@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -38,28 +39,30 @@ public class ChallengeDto {
         @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @Temporal(TemporalType.DATE)
-        private Date startDate;
+        private LocalDate startDate;
 
         @NotNull
         private Integer period;
 
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @Temporal(TemporalType.DATE)
-        private Date endDate;
+        private LocalDate endDate;
 
         private String thumbnailFilePath;
 
         private String originalFilename;
 
         @Builder
-        public addChallenge(String title, String content, String category, Date startDate, Integer period, Date endDate, String thumbnailFilePath) {
+        public addChallenge(String title, String content, String writer, String category, LocalDate startDate, Integer period, LocalDate endDate, String thumbnailFilePath, String originalFilename) {
             this.title = title;
             this.content = content;
+            this.writer = writer;
             this.category = category;
             this.startDate = startDate;
             this.period = period;
             this.endDate = endDate;
             this.thumbnailFilePath = thumbnailFilePath;
+            this.originalFilename = originalFilename;
         }
 
         public Challenge toEntity() {
@@ -80,13 +83,8 @@ public class ChallengeDto {
             this.originalFilename = originalFilename;
         }
 
-        public Date toDateTimeFormat() {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(startDate);
-            int day = period * 7;
-            cal.add(Calendar.DATE, day);
-            endDate = cal.getTime();
-
+        public LocalDate toDateTimeFormat() {
+            endDate = LocalDate.now().plusWeeks(period);
             return endDate;
         }
 

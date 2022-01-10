@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.mockito.Mockito.*;
@@ -59,7 +60,7 @@ public class ChallengeControllerTest {
                 .title("테스트")
                 .content("테스트입니다.")
                 .category("백엔드")
-                .startDate(new Date())
+                .startDate(LocalDate.of(2022,01,01))
                 .period(2)
                 .build();
 
