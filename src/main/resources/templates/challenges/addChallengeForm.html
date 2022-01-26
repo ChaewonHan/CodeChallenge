@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
     <!-- Load Tempalte CSS -->
     <link rel="stylesheet" href="/assets/css/templatemo.css"/>
+    <link rel="stylesheet" href="/assets/css/custom.css"/>
     <!--jQuery-->
     <script src="/assets/js/jquery.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -38,19 +39,18 @@
             <h2>챌린지 개설</h2>
         </div>
 
-        <form class="contact-form row needs-validation" method="post" th:object="${challenge}" th:action="@{/challenges}" enctype="multipart/form-data" novalidate>
+        <form class="contact-form row needs-validation" method="post" th:object="${challenge}" th:action="@{/challenges}" enctype="multipart/form-data" onsubmit="return formCheck();">
             <div class="col-12">
                 <div class="form-floating mb-4">
                     <input type="text" class="form-control form-control-lg light-300" id="title" placeholder="제목"
-                           th:field="*{title}" th:errorclass="field-error" required>
+                           th:field="*{title}" th:errorclass="field-error">
                     <label for="floatingsubject light-300">제목</label>
-                    <div class="field-error" th:if="${#fields.hasErrors('title')}" th:error="*{title}"></div>
-                    <div class="invalid-feedback">제목을 입력하세요.</div>
+                    <span class="field-error" th:if="${#fields.hasErrors('title')}" th:error="*{title}"></span>
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-floating mb-4">
-                    <select class="form-select" id="category" placeholder="카테고리 선택" th:field="*{category}" th:errorclass="field-error" required>
+                    <select class="form-select" id="category" placeholder="카테고리 선택" th:field="*{category}" th:errorclass="field-error">
                         <option selected hidden value="">챌린지 카테고리 선택</option>
                         <option value="language">프로그래밍 언어</option>
                         <option value="frontend">프론드엔드</option>
@@ -60,30 +60,27 @@
                         <option value="algorithm">알고리즘/자료구조</option>
                         <option value="etc">기타</option>
                     </select>
-                    <div class="field-error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}" />
-                    <div class="invalid-feedback">카테고리를 선택하세요.</div>
+                    <span class="field-error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}" />
                 </div>
             </div>
             <div class='col-md-6 col-xs-4'>
                 <div class="form-floating mb-4">
                     <div class="input-group date" id="startDate" data-target-input="nearest">
                         <input type="text" class="form-control form-control-lg light-300" data-target="#startDate" id="inputStartDate"
-                               th:field="*{startDate}" th:errorclass="field-error" placeholder="챌린지 시작일" required>
+                               th:field="*{startDate}" th:errorclass="field-error" placeholder="챌린지 시작일">
                         <div class="input-group-append" data-target="#startDate" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
-                        <div class="field-error" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" />
-                        <div class="invalid-feedback" id="date-validation">챌린지 시작일을 입력하세요.</div>
                     </div>
+                    <span class="field-error" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" />
                 </div>
             </div>
             <div class='col-md-6 col-xs-4'>
                 <div class="form-floating mb-4">
                         <input type="number" class="form-control form-control-lg light-300" id="period" placeholder="챌린지 기간" min="1" max="52"
-                               th:field="*{period}" th:errorclass="field-error" required>
+                               th:field="*{period}" th:errorclass="field-error">
                         <label for="floatingsubject light-300">챌린지 기간(주 단위)</label>
-                        <div class="field-error" th:if="${#fields.hasErrors('period')}" th:errors="*{period}" />
-                        <div class="invalid-feedback">챌린지 기간을 입력하세요.</div>
+                        <span class="field-error" th:if="${#fields.hasErrors('period')}" th:errors="*{period}" />
                 </div>
             </div>
             <div class="col-12">
@@ -92,14 +89,13 @@
             <div class="col-12">
                 <div class="form-floating mb-4">
                     <textarea class="form-control light-300" rows="14" placeholder="본문" id="floatingtextarea"
-                              th:field="*{content}" th:errorclass="field-error" required></textarea>
+                              th:field="*{content}" th:errorclass="field-error"></textarea>
                     <label for="floatingtextarea light-300">본문</label>
-                    <div class="field-error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}" />
-                    <div class="invalid-feedback">내용을 입력하세요.</div>
+                    <span class="field-error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}" />
                 </div>
             </div>
             <div class="col-md-12 col-12 m-auto text-center">
-                <button type="submit" class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">개설하기</button>
+                <button type="submit" id="formSubmit" class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">개설하기</button>
             </div>
         </form>
     </div>
@@ -107,9 +103,9 @@
 </section>
 <script>
       $(function () {
-        let startDate = $('#startDate');
+        let date = $('#startDate');
 
-        startDate.datetimepicker({
+        date.datetimepicker({
             format: 'YYYY-MM-DD',
             useCurrent: false,
             minDate: moment().millisecond(0).second(0).minute(0).hour(0).add(1, 'day'),
@@ -117,26 +113,52 @@
         });
     });
 
-    (function () {
-      'use strict'
+    $('#formSubmit').click(function () {
+        let title = $('#title').val();
+        let category = $('#category').val();
+        let startDate = $('#inputStartDate').val();
+        let period = $('#period').val();
+        let content = $('#floatingtextarea').val();
 
-      const forms = document.querySelectorAll('.needs-validation');
-      var startDate = document.getElementById('inputStartDate');
+        let dateExp = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
 
-      Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-          form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-            }
-            form.classList.add('was-validated')
-          }, false)
-        })
-    })()
+        let isValid = true;
 
+        if (!title) {
+            makingErrorMessage('#title', '챌린지 기간을 지정하세요.');
+            isValid = false;
+        }
+        if (!category) {
+            makingErrorMessage('#category', '카테고리를 선택하세요');
+            isValid = false;
+        }
+        if (!startDate) {
+            makingErrorMessage('#startDate', '챌린지 시작일을 선택하세요.');
+            isValid = false;
+        } else if (!dateExp.test(startDate)) {
+            makingErrorMessage('#startDate', 'yyyy-mm-dd 형식으로 입력하세요.');
+            isValid = false;
+        }
+        if (!period) {
+            makingErrorMessage('#period', '챌린지 기간을 지정하세요.');
+            isValid = false;
+        }
+        if (!content) {
+            makingErrorMessage('#floatingtextarea', '내용을 입력하세요.');
+            isValid = false;
+        }
+        if (period < 1 || period > 52) {
+            makingErrorMessage('#period', '1주에서 52주까지만 설정 가능합니다.');
+            isValid = false;
+        }
+        return isValid;
+    });
 
-
+    let makingErrorMessage = function (e, message) {
+        let element = $(e);
+        element.siblings('.field-error').remove();
+        element.after('<span class="field-error">'+message+'</span>');
+    }
 
 </script>
 </body>

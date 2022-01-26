@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head"></head>
+<style>
+    .field-error{
+        margin-bottom: 12px;
+        font-weight: 600;
+    {
+</style>
 <body>
 <nav th:replace="fragments/header-nav :: header-nav"></nav>
 <section class="container py-5">
     <div class="row pb-4">
-        <div class="py-5 text-center">
+        <div class="h2-title py-5 text-center">
             <h2>로그인</h2>
         </div>
         <form class="contact-form row" th:action th:object="${user}" method="post">
             <div th:if="${#fields.hasGlobalErrors()}">
-                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
-                   th:text="${err}">전체 오류 메시지</p>
+                <div class="field-error" th:each="err : ${#fields.globalErrors()}"
+                     th:text="${err}">전체 오류 메시지</div>
             </div>
             <div class="col-12">
                 <div class="form-floating mb-4">
@@ -20,7 +26,6 @@
                            th:errorclass="field-error">
                     <label for="floatingname light-300">이메일</label>
                 </div>
-                <div class="field-error" th:errors="*{email}" />
             </div><!--end email-->
             <div class="col-12">
                 <div class="form-floating mb-4">
@@ -29,19 +34,39 @@
                            th:errorclass="field-error">
                     <label for="floatingname light-300">비밀번호</label>
                 </div>
-                <div class="field-error" th:errors="*{password}" />
             </div><!--end password-->
             <hr class="my-4">
             <div class="row">
                 <div class="col-md-12 col-12 m-auto text-center">
-                    <button class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300" type="submit">
-                        로그인</button>
+                    <button class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300"
+                     id="formSubmit" type="=submit">로그인</button>
                 </div>
             </div>
         </form>
     </div>
 </section>
 </body>
+
+<script>
+
+    $('#formSubmit').click(function () {
+        let email = $('#email').val();
+        let password = $('#password').val();
+        let isValid = true;
+
+        if (!email) {
+            $('.h2-title').siblings('.field-error').remove();
+            $('.h2-title').after('<div class="field-error text-center">아이디를 입력하세요.</div>');
+            isValid = false;
+        }
+        else if (!password) {
+            $('.h2-title').siblings('.field-error').remove();
+            $('.h2-title').after('<div class="field-error text-center">비밀번호를 입력하세요.</div>');
+            isValid = false;
+        }
+        return isValid;
+    });
+</script>
 
 <footer th:replace="fragments/footer :: footer"></footer>
 </html>

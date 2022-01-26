@@ -1,5 +1,6 @@
 package com.project.challenge.domain.challenge;
 
+import com.project.challenge.common.annotaion.DateCheck;
 import com.project.challenge.domain.user.User;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -38,14 +39,13 @@ public class ChallengeDto {
 
         @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        @Temporal(TemporalType.DATE)
+        @DateCheck
         private LocalDate startDate;
 
         @NotNull
         private Integer period;
 
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        @Temporal(TemporalType.DATE)
         private LocalDate endDate;
 
         private String thumbnailFilePath;
