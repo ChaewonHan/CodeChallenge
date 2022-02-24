@@ -1,21 +1,13 @@
 package com.project.challenge.domain.challenge;
 
 import com.project.challenge.common.annotaion.DateCheck;
-import com.project.challenge.domain.user.User;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
 
 public class ChallengeDto {
 
@@ -89,4 +81,30 @@ public class ChallengeDto {
         }
 
     }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    @Builder
+    public static class challengeList {
+
+        private String title;
+        private String writer;
+        private String category;
+        private LocalDate startDate;
+        private LocalDate endDate;
+        private String thumbnailFilePath;
+
+        public static challengeList toChallengeDto(Challenge challenge) {
+            return challengeList.builder()
+                    .title(challenge.getChallengeTitle())
+                    .writer(challenge.getChallengeWriter())
+                    .category(challenge.getCategory())
+                    .startDate(challenge.getStartDate())
+                    .endDate(challenge.getEndDate())
+                    .thumbnailFilePath(challenge.getThumbnailFilePath())
+                    .build();
+        }
+    }
+
 }

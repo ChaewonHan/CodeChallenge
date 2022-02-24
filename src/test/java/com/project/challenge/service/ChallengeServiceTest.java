@@ -2,6 +2,7 @@ package com.project.challenge.service;
 
 import com.project.challenge.domain.challenge.Challenge;
 import com.project.challenge.domain.challenge.ChallengeDto;
+import com.project.challenge.domain.challenge.ChallengeStatus;
 import com.project.challenge.domain.user.User;
 import com.project.challenge.domain.user.UserStatus;
 import com.project.challenge.repository.ChallengeRepository;
@@ -17,12 +18,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import static com.project.challenge.domain.challenge.ChallengeDto.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
@@ -58,12 +66,13 @@ class ChallengeServiceTest {
                 .build();
     }
 
-    ChallengeDto.addChallenge createChallenge() {
-        return ChallengeDto.addChallenge
+    addChallenge createChallenge() {
+        return addChallenge
                 .builder()
                 .title("테스트")
                 .content("테스트입니다.")
                 .category("백엔드")
+                .writer("test")
                 .startDate(LocalDate.of(2022,01,01))
                 .period(2)
                 .build();
@@ -73,12 +82,11 @@ class ChallengeServiceTest {
         return new MockMultipartFile("testImg", "testImg.png", MediaType.IMAGE_PNG_VALUE, "testImg".getBytes());
     }
 
-
     @Test
     @DisplayName("이미지 없이 챌린지 생성 - 성공")
     void createChallengeSuccess() {
         //given
-        ChallengeDto.addChallenge addChallenge = createChallenge();
+        addChallenge addChallenge = createChallenge();
         addChallenge.setWriter("test");
         User user = userEntity();
         given(userRepository.findUsername(user.getEmail())).willReturn("test");
@@ -95,7 +103,7 @@ class ChallengeServiceTest {
     @DisplayName("이미지가 첨부된 챌린지 생성 - 성공")
     void createChallengeWithImageSuccess() {
         //given
-        ChallengeDto.addChallenge addChallenge = createChallenge();
+        addChallenge addChallenge = createChallenge();
         addChallenge.setWriter("test");
         User user = userEntity();
         MultipartFile file = createImageFile();
@@ -109,6 +117,23 @@ class ChallengeServiceTest {
         //then
         verify(userRepository, times(1)).findUsername(user.getEmail());
         verify(fileService, times(1)).uploadThumbnail(file);
+    }
+
+    @Test
+    @DisplayName("전체 챌린지 조회")
+    void getAllChallenge() {
+        //given
+
+        //when
+
+        //then
+
+    }
+
+    @Test
+    @DisplayName("각 카테고리별 챌린지 조회")
+    void getChallengeBydCategory() {
+
     }
 
 }

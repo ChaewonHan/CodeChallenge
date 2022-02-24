@@ -1,16 +1,19 @@
 package com.project.challenge.service.challenge;
 
-import com.project.challenge.domain.challenge.ChallengeDto;
 import com.project.challenge.repository.ChallengeRepository;
 import com.project.challenge.repository.UserRepository;
 import com.project.challenge.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
+import static com.project.challenge.domain.challenge.ChallengeDto.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +27,7 @@ public class ChallengeService {
     private static final String DEFAULT_FILE_ORIGINAL_NAME = "default.png";
 
     @Transactional
-    public void saveChallenge(ChallengeDto.addChallenge challengeDto, String email, MultipartFile file) {
+    public void saveChallenge(addChallenge challengeDto, String email, MultipartFile file) {
         if (!file.isEmpty()) {
             String filePath = fileService.uploadThumbnail(file);
             challengeDto.setImage(filePath, file.getOriginalFilename());
@@ -36,9 +39,17 @@ public class ChallengeService {
         challengeRepository.save(challengeDto.toEntity());
     }
 
+
     @Transactional
     public String getLoginUsername(String email) {
         return userRepository.findUsername(email);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<challengeList> getChallengeList(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable= PageRequest.of(page,9, Sort.by(Sort.Direction.DESC, "challengeNo"));
+        return challengeRepository.findAll(pageable).map(challengeList::toChallengeDto);
     }
 
 }
