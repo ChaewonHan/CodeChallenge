@@ -119,21 +119,5 @@ class ChallengeServiceTest {
         verify(fileService, times(1)).uploadThumbnail(file);
     }
 
-    @Test
-    @DisplayName("전체 챌린지 조회")
-    void getAllChallenge() {
-        //given
-
-        //when
-
-        //then
-
-    }
-
-    @Test
-    @DisplayName("각 카테고리별 챌린지 조회")
-    void getChallengeBydCategory() {
-
-    }
 
 }

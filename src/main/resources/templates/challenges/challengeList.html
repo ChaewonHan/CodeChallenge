@@ -8,11 +8,14 @@
 <section class="container py-5">
   <div class="row justify-content-center my-5">
     <div class="filter-btns shadow-md rounded-pill text-center col-auto">
-      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4 active" data-filter=".project" href="#">All</a>
-      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" data-filter=".business" href="#">Business</a>
-      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" data-filter=".marketing" href="#">Marketing</a>
-      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" data-filter=".social" href="#">Social Media</a>
-      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" data-filter=".graphic" href="#">Graphic</a>
+      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" id="all" href="/challenges">전체</a>
+      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" id="language" href="/challenges?category=language">프로그래밍 언어</a>
+      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" id="frontend" href="/challenges?category=frontend">프론트엔드</a>
+      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" id="backend" href="/challenges?category=backend">백엔드</a>
+      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" id="app" href="/challenges?category=app">모바일 앱 개발</a>
+      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" id="database" href="/challenges?category=database">데이터베이스</a>
+      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" id="algorithm" href="/challenges?category=algorithm">알고리즘/자료구조</a>
+      <a class="filter-btn btn rounded-pill btn-outline-primary border-0 m-md-2 px-md-4" id="etc" href="/challenges?category=etc">기타</a>
     </div>
   </div>
 
@@ -33,7 +36,7 @@
   </div>
 
   <!--페이징 번호-->
-  <div class="row">
+  <div class="row" th:if="${challengeList.totalElements} != 0">
     <div th:with="start=${T(Math).floor(challengeList.number / 5) * 5 + 1},
                     last=(${start + 4 < challengeList.totalPages ? start + 4 : challengeList.totalPages})" class="btn-toolbar justify-content-center pb-4" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group me-2" role="group" aria-label="First group">
@@ -52,46 +55,22 @@
   </div>
 </section>
 
-
 <footer th:replace="fragments/footer :: footer"></footer>
 
-<!-- Bootstrap -->
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<!-- Lightbox -->
-<script src="assets/js/fslightbox.js"></script>
-<!--<script>
-        fsLightboxInstances['gallery'].props.loadOnlyCurrentSource = true;
-</script>-->
-<!-- Load jQuery require for isotope -->
-<script src="assets/js/jquery.min.js"></script>
-<!-- Isotope -->
-<script src="assets/js/isotope.pkgd.js"></script>
-<!-- Page Script -->
 <script>
         $(window).load(function() {
-            // init Isotope
-            var $projects = $('.projects').isotope({
-                itemSelector: '.project',
-                layoutMode: 'fitRows'
-            });
-            $(".filter-btn").click(function() {
-                var data_filter = $(this).attr("data-filter");
-                $projects.isotope({
-                    filter: data_filter
-                });
-                $(".filter-btn").removeClass("active");
-                $(".filter-btn").removeClass("shadow");
-                $(this).addClass("active");
-                $(this).addClass("shadow");
-                return false;
-            });
+            let category = new URLSearchParams(location.search).get('category');
+            $(".filter-btn").removeClass("active");
+            $(".filter-btn").removeClass("shadow");
+            if(category == null) {
+              $('#all').addClass("active");
+              $('#all').addClass("shadow");
+            } else {
+              $('#' + category).addClass("active");
+              $('#' + category).addClass("shadow");
+            }
         });
-    </script>
-<!-- Templatemo -->
-<script src="assets/js/templatemo.js"></script>
-<!-- Custom -->
-<script src="assets/js/custom.js"></script>
-
+</script>
 </body>
 
 </html>

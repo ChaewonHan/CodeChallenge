@@ -52,4 +52,11 @@ public class ChallengeService {
         return challengeRepository.findAll(pageable).map(challengeList::toChallengeDto);
     }
 
+    @Transactional(readOnly = true)
+    public Page<challengeList> getChallengeListCategory(Pageable pageable, String category) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable= PageRequest.of(page,9, Sort.by(Sort.Direction.DESC, "challengeNo"));
+        return challengeRepository.findByCategory(category, pageable).map(challengeList::toChallengeDto);
+    }
+
 }
